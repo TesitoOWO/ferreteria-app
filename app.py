@@ -13,16 +13,39 @@ st.set_page_config(
         page_icon="🔧",
             layout="wide",
                 initial_sidebar_state="collapsed"
-                )
 
-                # Función para conectar a la base de datos
-                def get_db_connection():
-                    try:
-                            return psycopg2.connect(st.secrets["DATABASE_URL"])
-                                except Exception as e:
-                                        st.error(f"❌ Error de conexión a la base de datos: {e}")
-                                                st.stop()
+    # Reemplaza la función get_db_connection() con esto:
+	
+# Reemplaza la función get_db_connection() con esto:
 
+def get_db_connection():
+    try:
+        import pg8000
+        from urllib.parse import urlparse
+        
+        # Parsear la URL de la base de datos
+        db_url = st.secrets["DATABASE_URL"]
+        parsed = urlparse(db_url)
+        
+        # Extraer componentes de la URL
+        username = parsed.username
+        password = parsed.password
+        hostname = parsed.hostname
+        port = parsed.port
+        database = parsed.path[1:]  # Remover el slash inicial
+        
+        # Crear conexión con pg8000
+        conn = pg8000.connect(
+            user=username,
+            password=password,
+            host=hostname,
+            port=port,
+            database=database
+        )
+        return conn
+    except Exception as e:
+        st.error(f"❌ Error de conexión a la base de datos: {e}")
+        st.stop()
                                                 # Función para inicializar la base de datos
                                                 def init_db():
                                                     try:
