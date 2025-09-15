@@ -12,7 +12,7 @@ st.set_page_config(
     page_title="Sistema de Gestión de Ferretería",
         page_icon="🔧",
             layout="wide",
-                initial_sidebar_state="collapsed"
+                initial_sidebar_state="collapsed")
 
     # Reemplaza la función get_db_connection() con esto:
 	
